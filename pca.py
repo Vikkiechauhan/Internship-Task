@@ -1,5 +1,5 @@
 import numpy as np
-class pca:
+class PCA:
     def __init__(self, n_components):
         self.n_components=n_components
         self.mean=None
@@ -16,4 +16,5 @@ class pca:
         self.variance_ratio= V/sum(V)
         self.components=vec[0:self.n_components]
     def transform(self, data):
-        return np.dot(data-self.mean,self.componnents.T)
+        data=data-self.mean
+        return np.dot(data,self.componnents.T)
