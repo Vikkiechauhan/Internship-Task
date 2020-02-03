@@ -1,17 +1,19 @@
 import numpy as np
 class pca:
     def __init__(self, n_components):
-        n=n_components
+        self.n_components=n_components
+        self.mean=None
+        self.components=None
     def fit(self,value):
-        M=np.mean(value.T,axis=1)
-        C=value-M
+        self.mean=np.mean(value.T,axis=1)
+        C=value-self.mean
         V=np.cov(C.T) 
         val,vec=np.linalg.eig(V)
-        var_ratio= V/sum(V)
-        self.variance_ratio=var_ratio
+        vec=vec.T
+        index=np.argsort(val)[::-1]
+        val=val[index]
+        vec=vec[index]
+        self.variance_ratio= V/sum(V)
+        self.components=vec[0:self.n_components]
     def transform(self, data):
-        M=np.mean(data.T,axis=1)
-        C=data-M
-        V=np.cov(C.T) 
-        val,vec=np.linalg.eig(V)
-        return np.dot(vec.T,C.T)
+        return np.dot(data-self.mean,self.componnents.T)
